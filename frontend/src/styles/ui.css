@@ -1,0 +1,201 @@
+/* ============================================================
+   UI COMPONENT STYLES
+   ============================================================ */
+
+/* ── Logo ─────────────────────────────────────────── */
+.ui-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.ui-logo-mark {
+  border-radius: 4px;
+  background: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  line-height: 1;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.ui-logo:hover .ui-logo-mark {
+  transform: rotate(25deg) scale(1.12);
+  box-shadow: 0 0 12px rgba(200, 68, 10, 0.25);
+}
+
+/* ── Button ───────────────────────────────────────── */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 0.15s ease,
+    border-color     0.15s ease,
+    box-shadow       0.15s ease,
+    transform        0.1s  ease,
+    opacity          0.15s ease;
+}
+
+/* Ripple overlay on hover */
+.ui-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  border-radius: inherit;
+  transition: opacity 0.18s ease;
+}
+.ui-btn:not(:disabled):hover::after { opacity: 0.06; }
+.ui-btn:not(:disabled):active        { transform: translateY(1px) scale(0.99); }
+
+/* Variant: primary */
+.ui-btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.ui-btn-primary:not(:disabled):hover {
+  box-shadow: 0 4px 18px rgba(200, 68, 10, 0.38);
+  transform: translateY(-1px);
+}
+
+/* Variant: dark */
+.ui-btn-dark {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.ui-btn-dark:not(:disabled):hover {
+  box-shadow: 0 4px 14px rgba(14, 13, 11, 0.28);
+  transform: translateY(-1px);
+}
+
+/* Variant: ghost */
+.ui-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border);
+}
+.ui-btn-ghost:not(:disabled):hover {
+  border-color: var(--border-strong);
+  background: var(--bg-2);
+}
+
+/* Variant: ghost-dark */
+.ui-btn-ghostDark {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.ui-btn-ghostDark:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Sizes */
+.ui-btn-sm { padding: 7px 12px;  font-size: 13px; }
+.ui-btn-md { padding: 10px 16px; font-size: 14.5px; }
+.ui-btn-lg { padding: 13px 20px; font-size: 14.5px; }
+
+.ui-btn-full { width: 100%; }
+.ui-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── Card ─────────────────────────────────────────── */
+.ui-card-base {
+  border-radius: 10px;
+}
+
+/* ── Step dots ────────────────────────────────────── */
+.ui-step-dots {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+
+.ui-step-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.ui-step-circle-active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 5px var(--accent-soft);
+}
+
+.ui-step-connector {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: var(--border-strong);
+  margin-left: 16px;
+}
+
+/* ── Input ────────────────────────────────────────── */
+.ui-input-field {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.3;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ui-input-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ── Tone option ──────────────────────────────────── */
+.ui-tone-opt {
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: inherit;
+  transition:
+    border-color     0.15s ease,
+    background-color 0.15s ease,
+    transform        0.2s  ease,
+    box-shadow       0.2s  ease;
+}
+
+.ui-tone-opt:not(.ui-tone-selected):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.ui-tone-selected {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}

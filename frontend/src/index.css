@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Geist:wght@400;450;500;600;700&display=swap');
+
+/* Animation keyframes & utilities */
+@import './styles/animations.css';
+
+/* Component styles */
+@import './styles/auth.css';
+@import './styles/dashboard.css';
+@import './styles/generating.css';
+@import './styles/build.css';
+@import './styles/ui.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ────────────────────────────────── */
+:root {
+  --bg:           #f5f2ed;
+  --bg-2:         #ece8e0;
+  --ink:          #0e0d0b;
+  --ink-2:        #2a2620;
+  --muted:        #7a7368;
+  --muted-2:      #9d9588;
+  --border:       #d4cfc7;
+  --border-strong:#bdb6ab;
+  --card:         #ffffff;
+  --accent:       #c8440a;
+  --accent-soft:  #f0ddd4;
+  --accent-tint:  #fbeee5;
+  --green:        #1f7a3a;
+  --green-soft:   #d8ecdd;
+  --amber:        #b87a06;
+  --amber-soft:   #fbecc7;
+}
+
+/* ── Global reset ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+/* ── Type helpers ─────────────────────────────────── */
+.serif { font-family: "Instrument Serif", "Cormorant Garamond", Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+.mono  { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* ── Form base ────────────────────────────────────── */
+button { font: inherit; cursor: pointer; }
+input, textarea, select { font: inherit; color: inherit; }
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ── Misc ─────────────────────────────────────────── */
+a { color: inherit; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-track { background: transparent; }

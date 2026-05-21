@@ -1,0 +1,270 @@
+/* ============================================================
+   DASHBOARD PAGE STYLES
+   ============================================================ */
+
+.dash-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.dash-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+}
+
+/* ── Top bar ──────────────────────────────────────── */
+.dash-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  animation: fadeIn 0.4s ease both;
+}
+
+.dash-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.dash-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px var(--bg-2);
+}
+
+/* ── Empty state ──────────────────────────────────── */
+.dash-empty {
+  text-align: center;
+  padding: 80px 0;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* ── Main grid ────────────────────────────────────── */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Sidebar ──────────────────────────────────────── */
+.dash-sidebar {
+  animation: slideLeft 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.dash-sidebar-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.dash-site-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.dash-site-btn {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  gap: 6px;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.dash-site-btn:hover {
+  transform: translateX(3px);
+}
+
+.dash-site-name {
+  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Main content ─────────────────────────────────── */
+.dash-main {
+  min-width: 0;
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.dash-content-grid {
+  display: grid;
+  gap: 18px;
+}
+
+/* ── Hero card ────────────────────────────────────── */
+.dash-hero-outer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #1c1a16;
+  background: var(--ink);
+  color: #fff;
+  padding: 32px;
+}
+
+.dash-hero-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 92% -10%, rgba(200, 68, 10, 0.55), transparent 38%),
+              radial-gradient(circle at 100% 100%, rgba(200, 68, 10, 0.12), transparent 50%);
+  background-size: 200% 200%;
+  animation: gradientFlow 10s ease infinite;
+}
+
+.dash-hero-top {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dash-deploy-meta {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+  min-width: 210px;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.dash-deploy-meta:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.dash-hero-actions {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+/* ── Stats grid ───────────────────────────────────── */
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.dash-stat-card {
+  animation: cardEntrance 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+.dash-stat-card:nth-child(1) { animation-delay: 0.15s; }
+.dash-stat-card:nth-child(2) { animation-delay: 0.23s; }
+.dash-stat-card:nth-child(3) { animation-delay: 0.31s; }
+
+.dash-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.dash-stat-value {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 48px;
+  line-height: 1;
+  margin-top: 10px;
+  font-style: normal;
+  animation: countReveal 0.7s ease both;
+}
+
+/* ── Live badge ───────────────────────────────────── */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(31, 122, 58, 0.18);
+  color: #86d49a;
+  border: 1px solid rgba(31, 122, 58, 0.35);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #86d49a;
+  animation: pulseLive 2s ease-in-out infinite;
+}
+
+/* ── Tip bar ──────────────────────────────────────── */
+.dash-tip-bar {
+  padding: 12px 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.4s ease 0.4s both;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.dash-tip-bar:hover {
+  background: #e8e4dc;
+  border-color: var(--border-strong);
+}
+
+.dash-tip-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 760px) {
+  .dash-stats-grid { grid-template-columns: 1fr !important; }
+  .dash-grid       { grid-template-columns: 1fr !important; }
+}

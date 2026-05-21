@@ -1,0 +1,150 @@
+/* ============================================================
+   GLOBAL ANIMATION KEYFRAMES & UTILITY CLASSES
+   ============================================================ */
+
+/* --- Core entrance --- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Continuous motion --- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(1.5deg); }
+  66%       { transform: translateY(8px) rotate(-1deg); }
+}
+
+@keyframes blobDrift {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  25%       { transform: translate(40px, -30px) scale(1.08) rotate(8deg); }
+  50%       { transform: translate(-30px, 40px) scale(0.93) rotate(-5deg); }
+  75%       { transform: translate(25px, 25px) scale(1.04) rotate(3deg); }
+}
+
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- Spinners --- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes spinReverse {
+  to { transform: rotate(-360deg); }
+}
+
+/* --- Pulse & glow --- */
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(0.92); }
+}
+@keyframes pulseLive {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(134, 212, 154, 0.5); }
+  50%       { box-shadow: 0 0 0 7px rgba(134, 212, 154, 0); }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(200, 68, 10, 0.4); }
+  50%       { box-shadow: 0 0 22px rgba(200, 68, 10, 0.75), 0 0 42px rgba(200, 68, 10, 0.25); }
+}
+
+/* --- Loading / progress --- */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes progressGlow {
+  0%, 100% { box-shadow: 0 0 6px rgba(200, 68, 10, 0.4); }
+  50%       { box-shadow: 0 0 18px rgba(200, 68, 10, 0.8), 0 0 36px rgba(200, 68, 10, 0.3); }
+}
+
+/* --- Particle variants (4 trajectories) --- */
+@keyframes particleRise1 {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg) scale(1);     opacity: 0; }
+  8%   { opacity: 0.55; }
+  85%  { opacity: 0.2; }
+  100% { transform: translateY(-280px) translateX(50px)  rotate(320deg) scale(0.2); opacity: 0; }
+}
+@keyframes particleRise2 {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg) scale(1);     opacity: 0; }
+  8%   { opacity: 0.45; }
+  85%  { opacity: 0.15; }
+  100% { transform: translateY(-310px) translateX(-40px) rotate(-250deg) scale(0.15); opacity: 0; }
+}
+@keyframes particleRise3 {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg) scale(1);     opacity: 0; }
+  8%   { opacity: 0.6; }
+  85%  { opacity: 0.25; }
+  100% { transform: translateY(-340px) translateX(70px)  rotate(450deg) scale(0.3);  opacity: 0; }
+}
+@keyframes particleRise4 {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg) scale(1);     opacity: 0; }
+  8%   { opacity: 0.35; }
+  85%  { opacity: 0.1; }
+  100% { transform: translateY(-260px) translateX(-60px) rotate(-180deg) scale(0.2); opacity: 0; }
+}
+
+/* --- Misc --- */
+@keyframes countReveal {
+  from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+@keyframes staggerReveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.anim-fade-up    { animation: fadeUp    0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-fade-in    { animation: fadeIn    0.4s ease both; }
+.anim-slide-left { animation: slideLeft 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-slide-right{ animation: slideRight 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-scale-in   { animation: scaleIn  0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-float      { animation: float    6s ease-in-out infinite; }
+.anim-spin       { animation: spin     0.9s linear infinite; }
+.fade-up         { animation: fadeUp   0.35s ease; }
+
+/* Stagger delay helpers */
+.d-0  { animation-delay:   0ms; }
+.d-1  { animation-delay:  80ms; }
+.d-2  { animation-delay: 160ms; }
+.d-3  { animation-delay: 240ms; }
+.d-4  { animation-delay: 320ms; }
+.d-5  { animation-delay: 400ms; }
+.d-6  { animation-delay: 480ms; }
+.d-7  { animation-delay: 560ms; }
+.d-8  { animation-delay: 640ms; }
+
+/* Card hover lift */
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+}
