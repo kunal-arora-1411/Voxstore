@@ -131,7 +131,7 @@ function ImageUpload({ value, onChange, label, hint, aspect = 'landscape', compa
 }
 
 /* ── ShopForm ─────────────────────────────────── */
-export default function ShopForm({ onSubmit, loading, initialValues }) {
+export default function ShopForm({ onSubmit, onAutoGenerate, loading, autoLoading, initialValues }) {
   const [f, setF] = useState({ ...DEFAULT, ...initialValues });
   const [productInput, setProductInput] = useState('');
 
@@ -193,6 +193,21 @@ export default function ShopForm({ onSubmit, loading, initialValues }) {
             action={<span className="mono" style={{ fontSize: 11, color: 'var(--muted-2)' }}>core info</span>}>
             <div style={{ display: 'grid', gap: 16 }}>
               <Input label="Shop name" value={f.shopName} onChange={e => set('shopName', e.target.value)} placeholder="The Corner Bakery" />
+              <button
+                type="button"
+                disabled={!canSubmit || autoLoading}
+                onClick={() => onAutoGenerate?.({ shopName: f.shopName.trim(), tone: f.tone, brandColor: f.brandColor, pricingTier: f.pricingTier })}
+                style={{
+                  width: '100%', padding: '12px 14px', borderRadius: 7, cursor: canSubmit ? 'pointer' : 'not-allowed',
+                  border: '1px solid var(--accent)', background: 'var(--accent-tint)', color: 'var(--accent)',
+                  fontWeight: 600, textAlign: 'left', opacity: canSubmit ? 1 : 0.55,
+                }}
+              >
+                <span style={{ display: 'block' }}>{autoLoading ? 'Creating your brand…' : 'Just enter the shop name — AI builds everything ✦'}</span>
+                <span style={{ display: 'block', fontSize: 11.5, fontWeight: 400, marginTop: 3, color: 'var(--muted)' }}>
+                  Writes the story, products, tagline and visual direction, then generates the website.
+                </span>
+              </button>
               <Input label="Tagline" optional value={f.tagline} onChange={e => set('tagline', e.target.value)} placeholder="Sourdough, slowly." />
 
               <div>
@@ -304,6 +319,7 @@ export default function ShopForm({ onSubmit, loading, initialValues }) {
                   aspect="square"
                   compact
                 />
+                {!f.logoImage && <div className="mono" style={{ fontSize: 9.5, color: 'var(--muted)', marginTop: 5, textAlign: 'center' }}>We will create one</div>}
                 {f.logoImage && <div className="mono" style={{ fontSize: 10, color: 'var(--muted)', marginTop: 4, textAlign: 'center' }}>{f.logoImage.sizeKb}kb</div>}
               </div>
               <div>
@@ -360,7 +376,7 @@ export default function ShopForm({ onSubmit, loading, initialValues }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div>
               <div className="mono" style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--muted)' }}>Shop photos</div>
-              <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 3 }}>AI will place these in hero, about, and gallery sections.</div>
+              <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 3 }}>Upload your own, or leave any slot blank and we will create matching branded artwork.</div>
             </div>
             <span className="mono" style={{ fontSize: 11, color: 'var(--muted-2)' }}>up to 4 · optional</span>
           </div>
