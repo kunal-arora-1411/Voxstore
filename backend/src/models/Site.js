@@ -8,6 +8,8 @@ const siteSchema = new mongoose.Schema(
     generatedHtml: { type: String },
     siteUrl: { type: String },
     deployId: { type: String },
+    stitchProjectId: { type: String },
+    stitchScreenId: { type: String },
     status: {
       type: String,
       enum: ['pending', 'deploying', 'live', 'error'],

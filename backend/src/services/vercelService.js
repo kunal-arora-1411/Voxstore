@@ -17,10 +17,9 @@ async function sleep(ms) {
 /**
  * Builds the files array for the Vercel deployment.
  * html: sanitized HTML string
- * formData: validated form data (contains logoImage, heroImage, shopPhotos, productPhotos)
- * imageFileMap: { 'images/hero.jpg': 'hero', ... } from promptBuilder
+ * imageAssets: { 'images/hero.jpg': { data, encoding, meta }, ... }
  */
-function buildFilesList(html, formData, imageFileMap) {
+function buildFilesList(html, imageAssets = {}) {
   const files = [
     {
       file: 'index.html',
@@ -29,35 +28,21 @@ function buildFilesList(html, formData, imageFileMap) {
     },
   ];
 
-  const { logoImage, heroImage, shopPhotos = [], productPhotos = {} } = formData;
-
-  // Add each image file if it has data and is referenced in the imageFileMap
-  if (logoImage?.data && imageFileMap['images/logo.jpg']) {
-    files.push({ file: 'images/logo.jpg', data: logoImage.data, encoding: 'base64' });
-  }
-  if (heroImage?.data && imageFileMap['images/hero.jpg']) {
-    files.push({ file: 'images/hero.jpg', data: heroImage.data, encoding: 'base64' });
-  }
-  shopPhotos.forEach((photo, i) => {
-    const path = `images/shop-${i + 1}.jpg`;
-    if (photo?.data && imageFileMap[path]) {
-      files.push({ file: path, data: photo.data, encoding: 'base64' });
-    }
-  });
-  Object.entries(productPhotos).forEach(([name, photo]) => {
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 30);
-    const path = `images/product-${slug}.jpg`;
-    if (photo?.data && imageFileMap[path]) {
-      files.push({ file: path, data: photo.data, encoding: 'base64' });
+  Object.entries(imageAssets).forEach(([file, asset]) => {
+    // Skip url-type assets — these are Unsplash CDN links embedded directly
+    // as <img src="…"> in the HTML; they don't need to be uploaded to Vercel.
+    if (asset?.encoding === 'url') return;
+    if (asset?.data) {
+      files.push({ file, data: asset.data, encoding: asset.encoding || 'base64' });
     }
   });
 
   return files;
 }
 
-async function deploy(html, siteId, formData, imageFileMap, attempt = 1) {
+async function deploy(html, siteId, imageAssets, attempt = 1) {
   const projectName = `voxstore-${siteId}`.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-  const files = buildFilesList(html, formData, imageFileMap);
+  const files = buildFilesList(html, imageAssets);
 
   console.log({ event: 'vercel_deploy_start', siteId, fileCount: files.length });
 
@@ -77,7 +62,7 @@ async function deploy(html, siteId, formData, imageFileMap, attempt = 1) {
   } catch (err) {
     if (attempt < 3) {
       await sleep(1000 * Math.pow(2, attempt - 1));
-      return deploy(html, siteId, formData, imageFileMap, attempt + 1);
+      return deploy(html, siteId, imageAssets, attempt + 1);
     }
     throw new Error(`Vercel deploy failed after 3 attempts: ${err.message}`);
   }
@@ -120,4 +105,4 @@ async function swapAlias(deployId, alias, attempt = 1) {
   }
 }
 
-module.exports = { deploy, pollUntilReady, swapAlias };
+module.exports = { buildFilesList, deploy, pollUntilReady, swapAlias };

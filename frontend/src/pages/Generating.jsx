@@ -2,7 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api/index';
 
-const STAGES = ['prompt built', 'GPT-4o generating', 'sanitizing HTML', 'deploying to Vercel', 'saving URL'];
+const STAGES = [
+  'brand brief built',
+  'Stitch designing',
+  'engineering Stitch HTML',
+  'sanitizing website',
+  'deploying to Vercel',
+  'saving URL',
+];
 
 const PipelineNode = ({ status, label }) => {
   const palette = {
@@ -48,48 +55,77 @@ export default function Generating() {
     if (!formData) navigate('/build', { replace: true });
   }, [formData]);
 
+  // Guard: React 18 StrictMode intentionally mounts→unmounts→remounts every
+  // component in dev mode, which causes useEffect([]) to fire twice. Without
+  // this guard, two POST /sites/generate requests would fire concurrently and
+  // create two sites. The ref persists across the StrictMode remount cycle.
+  const hasFired    = useRef(false);
+  const controllerRef = useRef(null);
+
   useEffect(() => {
     if (!formData) return;
-    api.post('/sites/generate', formData)
+    if (hasFired.current) return;   // already in-flight — skip the second mount
+    hasFired.current = true;
+
+    const controller = new AbortController();
+    controllerRef.current = controller;
+
+    api.post('/sites/generate', formData, { signal: controller.signal })
       .then(({ data }) => {
         apiResult.current = data;
         apiDone.current = true;
         maybeFinish();
       })
       .catch(err => {
+        if (err.name === 'CanceledError' || err.code === 'ERR_CANCELED') return; // aborted — ignore
         setError(err.response?.data?.error || 'Generation failed. Please try again.');
       });
+
+    // Only abort on true unmount (navigating away), not StrictMode's synthetic remount.
+    // StrictMode remount: hasFired is already true so the new mount returns early —
+    // the cleanup from the first mount must NOT abort the in-flight request.
+    return () => {
+      if (!hasFired.current) controllerRef.current?.abort();
+    };
   }, []);
 
   useEffect(() => {
     if (!formData) return;
     const t0 = Date.now();
-    const TARGET_MS = 35000;
+    // Slow crawl to 88% over 150s to cover the pipeline duration.
+    // Once the API responds, we rush to 100% and navigate — no waiting.
+    const CRAWL_TARGET = 0.88;
+    const CRAWL_MS     = 150000;
     let raf;
     const tick = () => {
       const dt = Date.now() - t0;
-      let p = Math.min(dt / TARGET_MS, 0.95);
-      if (apiDone.current) p = Math.min(dt / TARGET_MS, 1);
+      let p;
+      if (apiDone.current) {
+        // API finished — jump to 100% immediately (animation handled by maybeFinish)
+        p = 1;
+      } else {
+        p = Math.min((dt / CRAWL_MS) * CRAWL_TARGET, CRAWL_TARGET);
+      }
       setPct(p);
       setStageIdx(Math.min(STAGES.length - 1, Math.floor(p * STAGES.length)));
       setTokens(184 + Math.floor(p * 2860));
       setElapsed(dt / 1000);
-      if (p < 1) { raf = requestAnimationFrame(tick); }
-      else { animDone.current = true; maybeFinish(); }
+      if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
 
   function maybeFinish() {
-    if (apiDone.current && animDone.current && apiResult.current) {
-      setTimeout(() => {
-        navigate(`/dashboard?newSite=${apiResult.current.siteId}`, { replace: true });
-      }, 400);
-    }
+    if (!apiDone.current || !apiResult.current) return;
+    // Flash 100% for 800ms so the user sees completion, then navigate
+    setPct(1);
+    setStageIdx(STAGES.length - 1);
+    setTimeout(() => {
+      navigate(`/dashboard?newSite=${apiResult.current.siteId}`, { replace: true });
+    }, 800);
   }
 
-  const cost    = (0.0042 + pct * 0.041).toFixed(4);
   const outSize = Math.floor(2.2 + pct * 13.6);
 
   if (error) {
@@ -174,9 +210,9 @@ export default function Generating() {
           <div className="gen-meta-eyebrow mono">Run metadata</div>
           <div className="gen-meta-grid">
             {[
-              ['model',         'gpt-4o'],
+              ['design',        'Google Stitch'],
+              ['engineering',   'gpt-4o'],
               ['prompt tokens', tokens.toLocaleString()],
-              ['est. cost',     '$' + cost],
               ['output',        outSize + ' kb'],
             ].map(([k, v]) => (
               <div key={k}>

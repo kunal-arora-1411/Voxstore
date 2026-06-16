@@ -10,9 +10,17 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: GENERATION_LIMITS_ENABLED
+        value: "true"
+      - key: DAILY_GENERATION_LIMIT
+        value: "100"
       - key: MONGODB_URI
         sync: false
       - key: OPENAI_API_KEY
+        sync: false
+      - key: STITCH_API_KEY
+        sync: false
+      - key: STITCH_PROJECT_ID
         sync: false
       - key: VERCEL_TOKEN
         sync: false
